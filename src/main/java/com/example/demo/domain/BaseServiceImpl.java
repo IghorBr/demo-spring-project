@@ -3,61 +3,40 @@ package com.example.demo.domain;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public abstract class BaseServiceImpl<T extends BaseDomain> implements BaseService<T> {
 
-	@Autowired
-	private BaseRepository<T> baseRepository;
+	private final BaseRepository<T> baseRepository;
+	private final Class<T> entity;
+
+	protected BaseServiceImpl(BaseRepository<T> baseRepository, Class<T> entity) {
+		this.baseRepository = baseRepository;
+		this.entity = entity;
+	}
 
 	@Override
 	public T save(T entity) {
-		return (T) baseRepository.save(entity);
-	}
-	
-	@Override
-	public List<T> saveAll(List<T> entities) {
-		return (List<T>) baseRepository.saveAll(entities);
-	}
-	
-	@Override
-    public List<T> findAll() {
-        return baseRepository.findAll();
-    }
-
-    @Override
-    public Optional<T> findById(Long entityId) {
-        return baseRepository.findById(entityId);
-    }
-	
-	
-	@Override
-	public T update(T entity) {
-		return (T) baseRepository.save(entity);
+		return baseRepository.save(entity);
 	}
 
 	@Override
-	public T updateById(T entity, Long entityId) {
-		Optional<T> optional = baseRepository.findById(entityId);
-        if(optional.isPresent()){
-            return (T) baseRepository.save(entity);
-        }else{
-            return null;
-        }
+	public List<T> findAll() {
+		return baseRepository.findAll();
 	}
 
 	@Override
-	public void delete(T entity) {
+	public T findByCode(String code) {
+		return baseRepository.findByCode(code).orElseThrow(() -> new ObjectNotFoundException(
+				String.format("Entity %s not found", entity.getSimpleName())
+		));
+	}
+
+	@Override
+	public void deleteByCode(String code) {
+		T entity = this.findByCode(code);
 		baseRepository.delete(entity);
-		
-	}
-
-	@Override
-	public void deleteById(Long entityId) {
-		baseRepository.deleteById(entityId);
 	}
 }

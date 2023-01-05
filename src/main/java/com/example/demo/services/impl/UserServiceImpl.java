@@ -1,6 +1,5 @@
 package com.example.demo.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.BaseServiceImpl;
@@ -11,5 +10,10 @@ import com.example.demo.services.UserService;
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
-	@Autowired private UserRepository userRepository;
+	private final UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        super(userRepository, User.class);
+        this.userRepository = userRepository;
+    }
 }

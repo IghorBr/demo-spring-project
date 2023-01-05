@@ -1,15 +1,7 @@
 package com.example.demo.entities;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import com.example.demo.domain.BaseDomain;
-
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,8 +18,7 @@ public class User extends BaseDomain {
 	@Column(unique = true)
 	private String email;
 	
-	private String nome;
-	private String sobrenome;
-	private String senha;
-	private Date dataCriacao;
+	private String name;
+	private String lastName;
+	private String password;
 }

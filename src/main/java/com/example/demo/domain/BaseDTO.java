@@ -11,5 +11,5 @@ import lombok.Setter;
 public abstract class BaseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	protected Long id;
+	protected String code;
 }

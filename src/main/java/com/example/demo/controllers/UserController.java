@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,13 +9,15 @@ import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
 
 @RestController
-@RequestMapping(value = "/usuarios")
+@RequestMapping(value = "/users")
 public class UserController extends BaseController<User, UserDTO> {
 
-	public UserController() {
+	private final UserService userService;
+
+	public UserController(UserService userService) {
 		super(User.class, UserDTO.class);
+		this.userService = userService;
 	}
 
-	@Autowired private UserService userService;
-	
+
 }
